@@ -1,14 +1,14 @@
 package org.demo.spring;
 
-import org.skife.jdbi.v2.DBI;
-import org.skife.jdbi.v2.sqlobject.Bind;
-import org.skife.jdbi.v2.sqlobject.BindBean;
-import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
-import org.skife.jdbi.v2.sqlobject.SqlQuery;
-import org.skife.jdbi.v2.sqlobject.SqlUpdate;
-import org.skife.jdbi.v2.sqlobject.customizers.Define;
-import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
-import org.skife.jdbi.v2.sqlobject.stringtemplate.UseStringTemplate3StatementLocator;
+import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
+import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.customizer.BindBean;
+import org.jdbi.v3.sqlobject.customizer.Define;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+import org.jdbi.v3.stringtemplate4.UseStringTemplateSqlLocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +21,7 @@ public class ExampleDao {
     private ExampleDb db;
 
     @Autowired
-    public void setDbi(DBI dbi) {
+    public void setDbi(Jdbi dbi) {
         this.db = dbi.onDemand(ExampleDb.class);
     }
 
@@ -39,20 +39,20 @@ public class ExampleDao {
     }
 
 
-    @UseStringTemplate3StatementLocator
-    @RegisterMapper(ExampleMapper.class)
-    public static abstract class ExampleDb {
+//    @UseStringTemplateSqlLocator
+    @RegisterRowMapper(ExampleMapper.class)
+    public interface ExampleDb {
 
         @SqlUpdate("INSERT INTO example (name) values (:name)")
         @GetGeneratedKeys
-        abstract long create(@BindBean Example example);
+        long create(@BindBean Example example);
 
 
         @SqlQuery("SELECT * FROM example WHERE id = :id")
-        abstract Example get(@Bind("id") long id);
+        Example get(@Bind("id") long id);
 
         @SqlQuery("SELECT * FROM example WHERE <where>")
-        abstract List<Example> getWhere(@Define("where") String where);
+        List<Example> getWhere(@Define("where") String where);
     }
 }
 

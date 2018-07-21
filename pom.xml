@@ -31,9 +31,12 @@
 
     <jaxb.version>2.3.0</jaxb.version>
 
-    <jdbi.version>2.72</jdbi.version>
+    <!--<jdbi.version>2.72</jdbi.version>-->
+    <!--<stringtemplate.version>3.2.1</stringtemplate.version>-->
+
+    <jdbi3.version>3.3.0</jdbi3.version>
+
     <h2.version>1.4.197</h2.version>
-    <stringtemplate.version>3.2.1</stringtemplate.version>
 
   </properties>
 
@@ -65,18 +68,38 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
+
+    <!-- JDBI 2 -->
+    <!--<dependency>-->
+      <!--<groupId>org.jdbi</groupId>-->
+      <!--<artifactId>jdbi</artifactId>-->
+      <!--<version>${jdbi.version}</version>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.antlr</groupId>-->
+      <!--<artifactId>stringtemplate</artifactId>-->
+      <!--<version>${stringtemplate.version}</version>-->
+    <!--</dependency>-->
+
+    <!-- JDBI3 -->
+    <!-- https://mvnrepository.com/artifact/org.jdbi/jdbi3-core -->
     <dependency>
       <groupId>org.jdbi</groupId>
-      <artifactId>jdbi</artifactId>
-      <version>${jdbi.version}</version>
+      <artifactId>jdbi3-core</artifactId>
+      <version>${jdbi3.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jdbi/jdbi3-stringtemplate4 -->
+    <dependency>
+      <groupId>org.jdbi</groupId>
+      <artifactId>jdbi3-stringtemplate4</artifactId>
+      <version>${jdbi3.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jdbi</groupId>
+      <artifactId>jdbi3-sqlobject</artifactId>
+      <version>${jdbi3.version}</version>
     </dependency>
 
-    <!-- required for JDBI DAOs -->
-    <dependency>
-      <groupId>org.antlr</groupId>
-      <artifactId>stringtemplate</artifactId>
-      <version>${stringtemplate.version}</version>
-    </dependency>
 
     <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
     <dependency>
