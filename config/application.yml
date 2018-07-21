@@ -1,0 +1,73 @@
+# ================================================================================================
+# Spring property load order is:
+# 1. A /config subdirectory of the current directory.
+# 2. The current directory
+# 3. A classpath /config package
+# 4. The classpath root
+#
+# When multiple `application.yml` are found in above locations,
+# duplicate properties will be merged.
+# =================================================================================================
+
+# ----------------------------------
+# application endpoint configuration
+# ----------------------------------
+server:
+  port: 8080
+
+
+# ---------------------------------------------
+# management endpoint configuration
+# ---------------------------------------------
+
+management:
+  server:
+    port: 8081
+    address: 127.0.0.1
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health,info
+  security:
+    user:
+      name: monitor
+      password: secret
+
+
+# ---------------------
+# Jackson configuration
+# ---------------------
+spring.jackson.serialization.indent_output: true
+spring.jackson.serialization.write_dates_as_timestamps: false
+
+# -------------------------------------------------------------
+# jasypt resolves the password from system environment variable
+# -------------------------------------------------------------x`
+jasypt:
+  encryptor:
+    password: masterhelloworldpassword
+
+
+# --------------------------
+# Application Configuration
+# --------------------------
+
+spring:
+  datasource:
+    initialize: true
+    url: jdbc:h2:mem:test
+    driver-class-name: org.h2.Driver
+
+
+# Logging
+logging:
+  file: logs/spring-with-jdbi.log
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(18971){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"
+    file: "[%d] [%-5level] [%thread] [%logger] - [%msg]%n"
+  level:
+    org.springframework.web: WARN
+    org.springframework.security: WARN
+    org.springframework.jdbc.datasource.init.ScriptUtils: INFO
+    org.jdbi: DEBUG
